@@ -4,11 +4,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddAppDbContext(builder.Configuration);
+
+builder.Services.AddDatabaseConnection(builder.Configuration);
 builder.Services.AddIdentity();
+builder.Services.AddFluentValidation();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddServices();
+builder.Services.AddMiddlewares();
 
 var app = builder.Build();
 await app.SeedIdentity();
+
+app.UseMiddlewares();
 
 if (app.Environment.IsDevelopment())
 {

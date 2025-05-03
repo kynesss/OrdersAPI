@@ -1,4 +1,5 @@
-﻿using OrdersAPI.Seeders;
+﻿using OrdersAPI.Middlewares;
+using OrdersAPI.Seeders;
 
 namespace OrdersAPI.Extensions
 {
@@ -9,6 +10,11 @@ namespace OrdersAPI.Extensions
             using var scope = app.Services.CreateScope();
             var identitySeeder = scope.ServiceProvider.GetRequiredService<IdentitySeeder>();
             await identitySeeder.Seed();
+        }
+
+        public static void UseMiddlewares(this WebApplication app)
+        {
+            app.UseMiddleware<ErrorHandlingMiddleware>();
         }
     }
 }

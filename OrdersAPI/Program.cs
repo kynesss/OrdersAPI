@@ -1,14 +1,15 @@
+using OrdersAPI.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddAppDbContext(builder.Configuration);
+builder.Services.AddIdentity();
 
 var app = builder.Build();
+await app.SeedIdentity();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

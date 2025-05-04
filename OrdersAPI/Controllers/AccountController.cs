@@ -25,7 +25,7 @@ namespace OrdersAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var token = _accountService.GenerateJWT(dto);
+            var token = await _accountService.GenerateJWT(dto);
             return Ok(token);
         }
     }

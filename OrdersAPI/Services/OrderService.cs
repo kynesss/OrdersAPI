@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OrdersAPI.Constants;
 using OrdersAPI.Entities;
 using OrdersAPI.Exceptions;
 using OrdersAPI.Models;
@@ -55,9 +56,28 @@ namespace OrdersAPI.Services
             return order.Id;
         }
 
+        public async Task Delete(int id)
+        {
+            var order = await _dbContext.Orders
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (order is null)
+            {
+                throw new NotFoundException($"Order with id {id} does not exist");
+            }
+
+            var isCreatorOrAdmin = _userContext.UserId == order.UserId || _userContext.User!.IsInRole(Roles.Admin);
+
+            if (!isCreatorOrAdmin)
+            {
+                throw new ForbidException("Only order creator or admin is allowed to delete");
+            }
+        }
+
         public async Task<IEnumerable<OrderDto>> GetAll()
         {
             var orders = await _dbContext.Orders
+                .Include(order => order.User)
                 .Include(order => order.OrderItems)
                 .ThenInclude(orderItem => orderItem.Product)
                 .ToListAsync();
@@ -66,12 +86,12 @@ namespace OrdersAPI.Services
 
             foreach (var order in orders)
             {
-                var user = await _userManager.FindByIdAsync(order.UserId);
                 var orderItemsDto = _mapper.Map<List<OrderItemDto>>(order.OrderItems);
 
                 var orderDto = _mapper.Map<OrderDto>(order);
-                orderDto.CreatedBy = $"{user.FirstName} {user.LastName}";
+                var creator = order.User;
 
+                orderDto.CreatedBy = $"{creator.FirstName} {creator.LastName}";
                 dtos.Add(orderDto);
             }
 
@@ -85,15 +105,14 @@ namespace OrdersAPI.Services
                 .ThenInclude(orderItem => orderItem.Product)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            var user = await _userManager.FindByIdAsync(order.UserId);
-
             if (order is null)
             {
                 throw new NotFoundException($"Order with id {id} does not exist");
             }
 
+            var creator = order.User;
             var dto = _mapper.Map<OrderDto>(order);
-            dto.CreatedBy = $"{user.FirstName} {user.LastName}";
+            dto.CreatedBy = $"{creator.FirstName} {creator.LastName}";
 
             return dto;
         }

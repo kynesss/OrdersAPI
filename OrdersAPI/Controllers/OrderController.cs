@@ -38,5 +38,12 @@ namespace OrdersAPI.Controllers
             var order = await _orderService.GetById(id);
             return Ok(order);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            await _orderService.Delete(id);
+            return NoContent();
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace OrdersAPI.Services
         Task<IEnumerable<OrderDto>> GetAll();
 
         Task<OrderDto> GetById(int id);
+
+        Task Delete(int id);
     }
 }

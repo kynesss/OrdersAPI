@@ -20,6 +20,11 @@ namespace OrdersAPI.Middlewares
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(badRequestEx.Message);
             }
+            catch (ForbidException forbidEx)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync(forbidEx.Message);
+            }
             catch (NotFoundException notFoundEx)
             {
                 context.Response.StatusCode = 404;

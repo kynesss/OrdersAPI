@@ -5,7 +5,7 @@ using OrdersAPI.Models;
 
 namespace OrdersAPI.Validators
 {
-    public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
+    public class RegisterUserDtoValidator : AbstractValidator<RegisterDto>
     {
         public RegisterUserDtoValidator(UserManager<User> userManager)
         {

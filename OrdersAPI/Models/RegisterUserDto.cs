@@ -1,6 +1,6 @@
 ﻿namespace OrdersAPI.Models
 {
-    public class RegisterUserDto
+    public class RegisterDto
     {
         public string Email { get; set; }
         public string Password { get; set; }

@@ -6,6 +6,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDatabaseConnection(builder.Configuration);
+builder.Services.AddAuthentication(builder.Configuration);
+
 builder.Services.AddIdentity();
 builder.Services.AddFluentValidation();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -25,6 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

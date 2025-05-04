@@ -8,7 +8,7 @@ namespace OrdersAPI.Mappings
     {
         public AccountMappingProfile()
         {
-            CreateMap<RegisterUserDto, User>()
+            CreateMap<RegisterDto, User>()
                 .ForMember(x => x.UserName, x => x.MapFrom(x => x.Email));
         }
     }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace OrdersAPI.Middlewares
 {
@@ -14,6 +16,11 @@ namespace OrdersAPI.Middlewares
             {
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(validationEx.Message);
+            }
+            catch (BadHttpRequestException badRequestEx)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(badRequestEx.Message);
             }
         }
     }

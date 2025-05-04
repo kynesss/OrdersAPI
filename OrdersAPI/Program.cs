@@ -9,6 +9,7 @@ builder.Services.AddDatabaseConnection(builder.Configuration);
 builder.Services.AddAuthentication(builder.Configuration);
 
 builder.Services.AddIdentity();
+builder.Services.AddSeeders();
 builder.Services.AddFluentValidation();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
@@ -16,7 +17,7 @@ builder.Services.AddServices();
 builder.Services.AddMiddlewares();
 
 var app = builder.Build();
-await app.SeedIdentity();
+await app.UseSeeders();
 
 app.UseMiddlewares();
 

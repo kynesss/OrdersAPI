@@ -4,7 +4,7 @@ using OrdersAPI.Entities;
 
 namespace OrdersAPI.Seeders
 {
-    public class IdentitySeeder
+    public class IdentitySeeder : ISeeder
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;

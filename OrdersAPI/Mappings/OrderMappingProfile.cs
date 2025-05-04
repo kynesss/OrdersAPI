@@ -13,6 +13,8 @@ namespace OrdersAPI.Mappings
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(x => x.Name, dto => dto.MapFrom(x => x.Product.Name))
                 .ForMember(x => x.Description, dto => dto.MapFrom(x => x.Product.Description));
+
+            CreateMap<Order, OrderDto>();
         }
     }
 }

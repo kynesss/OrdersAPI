@@ -7,5 +7,7 @@ namespace OrdersAPI.Services
         Task<int> Create(CreateOrderDto dto);
 
         Task<IEnumerable<OrderDto>> GetAll();
+
+        Task<OrderDto> GetById(int id);
     }
 }

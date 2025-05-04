@@ -31,5 +31,12 @@ namespace OrdersAPI.Controllers
             var orders = await _orderService.GetAll();
             return Ok(orders);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var order = await _orderService.GetById(id);
+            return Ok(order);
+        }
     }
 }

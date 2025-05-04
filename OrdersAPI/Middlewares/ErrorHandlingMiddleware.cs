@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+﻿using OrdersAPI.Exceptions;
 
 namespace OrdersAPI.Middlewares
 {
@@ -21,6 +19,16 @@ namespace OrdersAPI.Middlewares
             {
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync(badRequestEx.Message);
+            }
+            catch (NotFoundException notFoundEx)
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync(notFoundEx.Message);
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 500;
+                await context.Response.WriteAsync("Something went wrong");
             }
         }
     }

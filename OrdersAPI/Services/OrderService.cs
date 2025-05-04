@@ -33,7 +33,7 @@ namespace OrdersAPI.Services
 
                 if (product is null)
                 {
-                    throw new BadRequestException($"Product with id {itemDto.ProductId} does not exist");
+                    throw new NotFoundException($"Product with id {itemDto.ProductId} does not exist");
                 }
 
                 var orderItem = _mapper.Map<OrderItem>(itemDto);
@@ -69,18 +69,33 @@ namespace OrdersAPI.Services
                 var user = await _userManager.FindByIdAsync(order.UserId);
                 var orderItemsDto = _mapper.Map<List<OrderItemDto>>(order.OrderItems);
 
-                var orderDto = new OrderDto
-                {
-                    Id = order.Id,
-                    CreatedAt = order.CreatedAt,
-                    CreatedBy = $"{user.FirstName} {user.LastName}",
-                    OrderItems = orderItemsDto
-                };
+                var orderDto = _mapper.Map<OrderDto>(order);
+                orderDto.CreatedBy = $"{user.FirstName} {user.LastName}";
 
                 dtos.Add(orderDto);
             }
 
             return dtos;
+        }
+
+        public async Task<OrderDto> GetById(int id)
+        {
+            var order = await _dbContext.Orders
+                .Include(order => order.OrderItems)
+                .ThenInclude(orderItem => orderItem.Product)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var user = await _userManager.FindByIdAsync(order.UserId);
+
+            if (order is null)
+            {
+                throw new NotFoundException($"Order with id {id} does not exist");
+            }
+
+            var dto = _mapper.Map<OrderDto>(order);
+            dto.CreatedBy = $"{user.FirstName} {user.LastName}";
+
+            return dto;
         }
     }
 }

@@ -16,12 +16,14 @@ namespace OrdersAPI.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IUserContextService, UserContextService>();
         }
 
         public static void AddSeeders(this IServiceCollection services)
         {
             services.AddScoped<ISeeder, IdentitySeeder>();
-            services.AddScoped<ISeeder, OrdersSeeder>();
+            services.AddScoped<ISeeder, OrderSeeder>();
         }
 
         public static void AddMiddlewares(this IServiceCollection services)

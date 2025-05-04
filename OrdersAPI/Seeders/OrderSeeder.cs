@@ -2,11 +2,11 @@
 
 namespace OrdersAPI.Seeders
 {
-    public class OrdersSeeder : ISeeder
+    public class OrderSeeder : ISeeder
     {
         private readonly AppDbContext _dbContext;
 
-        public OrdersSeeder(AppDbContext dbContext)
+        public OrderSeeder(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }

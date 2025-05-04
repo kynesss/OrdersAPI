@@ -6,7 +6,6 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDatabaseConnection(builder.Configuration);
-builder.Services.AddAuthentication(builder.Configuration);
 
 builder.Services.AddIdentity();
 builder.Services.AddSeeders();
@@ -15,6 +14,11 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddServices();
 builder.Services.AddMiddlewares();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 await app.UseSeeders();

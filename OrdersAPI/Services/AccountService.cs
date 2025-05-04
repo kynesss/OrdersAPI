@@ -44,7 +44,7 @@ namespace OrdersAPI.Services
 
             var claims = new List<Claim>()
             {
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.NameIdentifier, user.Id),
                 new(ClaimTypes.Email, user.Email),
                 new("DateOfBirth", user.DateOfBirth.ToString("yyyy-MM-dd"))
             };
